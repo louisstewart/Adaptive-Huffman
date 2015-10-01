@@ -2,8 +2,11 @@ package adaptiveHuffman.tree;
 
 public class NYTNode extends Node {
 	
-	public NYTNode(int index) {
-		super(0,index);
+	/**
+	 * Create new NYT, always index and weight 0.
+	 */
+	public NYTNode() {
+		super(0,0);
 	}
 
 }

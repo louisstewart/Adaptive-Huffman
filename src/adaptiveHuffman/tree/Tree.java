@@ -6,12 +6,27 @@ import java.util.Map;
 public class Tree {
 	
 	private Node root;
+	priavte Node NYT;
 	private Map seen = new HashMap<Character,Integer>(); 
 	// Map of seen characters with their weight. Makes tree search easier.
 	
 	
 	public Tree() {
-		this.root = new NYTNode(0);
+		this.root = new NYTNode();
+		this.NYT = root;
+	}
+	
+	/**
+	 * Take current NYT node and replace it in the tree with an internal node.
+	 * The internal node has an NYT node as left child, and a new leaf as right child.
+	 * Weight of new internal node is weight of leaf child + NYT (which is 0).
+	 */
+	private void giveBirth(Node currentNYT, char value) {
+		Node child = new LeafNode(value,1,1);
+		Node newNYT = new NYTNode();
+		Node internal = new InternalNode(newNYT,child,1,2);
+		currentNYT = internal;
+		
 	}
 	
 	/**
