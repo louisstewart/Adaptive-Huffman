@@ -10,10 +10,6 @@ public class LeafNode extends Node {
 	
 	/*
 	 * Getters and setters for private members.
-	 * No setter for index, because once the node index is set 
-	 * on construction, it is not changed. Instead the weight and
-	 * value are changed when contents need to be shifted around
-	 * the tree.
 	 */
 	public void setValue(char value) {
 		this.value = value;
