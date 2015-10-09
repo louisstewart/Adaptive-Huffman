@@ -3,8 +3,8 @@ package adaptiveHuffman.tree;
 public class LeafNode extends Node {
 	private char value;
 
-	public LeafNode(char value, int weight, int index) {
-		super(weight,index);
+	public LeafNode(Node parent,char value, int weight, int index) {
+		super(parent,weight,index);
 		this.value = value;
 	}
 	
