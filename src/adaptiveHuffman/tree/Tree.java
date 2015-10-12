@@ -2,8 +2,10 @@ package adaptiveHuffman.tree;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 public class Tree {
 	
@@ -30,11 +32,28 @@ public class Tree {
 	public void insertInto(Character value) {
 		// Deal with value that exists in tree first.
 		if(seen.containsKey(value)) {
-			
+			Node toUpdate = seen.get(value);
+			updateTree(toUpdate);
 		}
 		else {
-			Node parent = this.giveBirth(value);
+			Node parent = giveBirth(value);
 			updateTree(parent);
+		}
+	}
+	
+	/**
+	 * Print the nodes of the tree using either pre-order
+	 * or reverse breadth first (right child first) traversal 
+	 * depending on which print function is used.
+	 * 
+	 * @param breadthFirst - flag to choose which print function.
+	 */
+	public void printTree(boolean breadthFirst) {
+		if(breadthFirst) {
+			printTreeBreadth(root);
+		}
+		else {
+			printTreeDepth(root);
 		}
 	}
 	
@@ -55,6 +74,8 @@ public class Tree {
 		NYT.left = newNYT; // Set children.
 		NYT.right = leaf;
 		NYT = newNYT; // Turn NYT pointer into the new NYT node.
+		
+		updateNodeIndices();
 		return oldNYT;
 	}
 	
@@ -63,9 +84,10 @@ public class Tree {
 			if(maxInWeightClass(node))  {
 				Node toSwap = findHighestIndexWeight(node);
 				swap(toSwap,node);
-				node.increment();
-				node = node.parent;
+				
 			}
+			node.increment();
+			node = node.parent;
 		}
 		node.increment();
 		node.setIndex(order.indexOf(node));
@@ -79,6 +101,9 @@ public class Tree {
 			if(next != node.parent && next.getWeight() == weight) {
 				return true;
 			}
+			else if(next != node.parent && next.getWeight() > weight){
+				return false;
+			}
 		}
 		return false;
 	}
@@ -90,7 +115,7 @@ public class Tree {
 		while((next = order.get(index)).getWeight() == weight) {
 			index++;
 		}
-		next = order.get(index);
+		next = order.get(--index);
 		return next;
 		
 	}
@@ -98,27 +123,45 @@ public class Tree {
 	private void swap(Node newNodePosition, Node oldNodeGettingSwapped) {
 		int newIndex = newNodePosition.getIndex();
 		int oldIndex = oldNodeGettingSwapped.getIndex();
+		Node oldParent = oldNodeGettingSwapped.parent;
+		Node newParent = newNodePosition.parent;
+		boolean oldNodeWasOnRight, newNodePositionOnRight;
+		oldNodeWasOnRight = newNodePositionOnRight = false;
+		
 		if(newNodePosition.parent.right == newNodePosition) {
-			newNodePosition.parent.right = oldNodeGettingSwapped;
-		}
-		else {
-			newNodePosition.parent.left = oldNodeGettingSwapped;
+			newNodePositionOnRight = true;
 		}
 		if(oldNodeGettingSwapped.parent.right == oldNodeGettingSwapped) {
-			oldNodeGettingSwapped.parent.right = newNodePosition;
+			oldNodeWasOnRight = true;
+		}
+		if(newNodePositionOnRight) {
+			newParent.right = oldNodeGettingSwapped;
+		}
+		else{
+			newParent.left = oldNodeGettingSwapped;
+		}
+		if(oldNodeWasOnRight) {
+			oldParent.right = newNodePosition;
 		}
 		else {
-			oldNodeGettingSwapped.parent.left = newNodePosition;
+			oldParent.left = newNodePosition;
 		}
+		oldNodeGettingSwapped.parent = newParent;
+		newNodePosition.parent = oldParent;
+		// Swap the indices of the nodes in order arraylist.
 		order.set(newIndex, oldNodeGettingSwapped);
 		order.set(oldIndex, newNodePosition);
+		updateNodeIndices();
 	}
 	
-	public void printTree() {
-		printTheTree(this.root);
+	private void updateNodeIndices() {
+		for(int i = 0; i < order.size(); i++) {
+			Node node = order.get(i);
+			node.setIndex(order.indexOf(node));
+		}
 	}
 	
-	private void printTheTree(Node node){
+	private void printTreeDepth(Node node){
 		if(node.isNYT) {
 			System.out.println(node);
 		} 
@@ -127,9 +170,24 @@ public class Tree {
 		}
 		else { // Node is an internal node. 
 			System.out.println(node);
-			printTheTree(node.left);
-			printTheTree(node.right);
+			printTreeDepth(node.left);
+			printTreeDepth(node.right);
 		}
 	}
+	
+	private void printTreeBreadth(Node root) {
+		Queue<Node> queue = new LinkedList<Node>() ;
+	    if (root == null)
+	        return;
+	    queue.clear();
+	    queue.add(root);
+	    while(!queue.isEmpty()){
+	        Node node = queue.remove();
+	        System.out.println(node);
+	        if(node.right != null) queue.add(node.right);
+	        if(node.left != null) queue.add(node.left);
+	    }
 
+	}
+	
 }
