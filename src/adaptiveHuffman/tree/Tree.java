@@ -41,6 +41,12 @@ public class Tree {
 		}
 	}
 	
+	/**
+	 * Check if character exists in tree already.
+	 * 
+	 * @param value - char to check.
+	 * @return true if exists in tree.
+	 */
 	public boolean contains(Character value) {
 		if(seen.containsKey(value)) {
 			return true;
@@ -88,6 +94,13 @@ public class Tree {
 		return oldNYT;
 	}
 	
+	/**
+	 * Update the tree nodes to preserve the invariants that
+	 * sibling nodes have adjacent indices, and that parents 
+	 * have indices equal to the sum of child weights.
+	 * 
+	 * @param node
+	 */
 	private void updateTree(Node node) {
 		while(node != root) {
 			if(maxInWeightClass(node))  {
@@ -95,13 +108,20 @@ public class Tree {
 				swap(toSwap,node);
 				
 			}
-			node.increment();
+			node.increment(); // Increment node weight.
 			node = node.parent;
 		}
 		node.increment();
 		node.setIndex(order.indexOf(node));
 	}
 	
+	/**
+	 * Check if a node is the highest indexed node
+	 * for its weight value.
+	 * 
+	 * @param node
+	 * @return
+	 */
 	private boolean maxInWeightClass(Node node) {
 		int index = order.indexOf(node);
 		int weight = node.getWeight();
@@ -117,6 +137,13 @@ public class Tree {
 		return false;
 	}
 	
+	/**
+	 * Find the node with the highest index that is the
+	 * same weight as the argument node.
+	 * 
+	 * @param node
+	 * @return
+	 */
 	private Node findHighestIndexWeight(Node node) {
 		Node next;
 		int index = node.getIndex() + 1;
@@ -124,16 +151,28 @@ public class Tree {
 		while((next = order.get(index)).getWeight() == weight) {
 			index++;
 		}
-		next = order.get(--index);
+		next = order.get(--index); // Overshot correct index, need to decrement.
 		return next;
 		
 	}
 	
+	/**
+	 * Swap 2 nodes in a tree, preserving the indices of 
+	 * the positions, and the parent nodes.
+	 * 
+	 * @param newNodePosition
+	 * @param oldNodeGettingSwapped - node which needs to
+	 * 		change position due to weight increment.
+	 */
 	private void swap(Node newNodePosition, Node oldNodeGettingSwapped) {
 		int newIndex = newNodePosition.getIndex();
 		int oldIndex = oldNodeGettingSwapped.getIndex();
+		
+		// Keep track of parents of both nodes getting swapped.
 		Node oldParent = oldNodeGettingSwapped.parent;
 		Node newParent = newNodePosition.parent;
+		
+		// Need to know if nodes were left or right child.
 		boolean oldNodeWasOnRight, newNodePositionOnRight;
 		oldNodeWasOnRight = newNodePositionOnRight = false;
 		
@@ -155,6 +194,7 @@ public class Tree {
 		else {
 			oldParent.left = newNodePosition;
 		}
+		// Update the parent pointers. 
 		oldNodeGettingSwapped.parent = newParent;
 		newNodePosition.parent = oldParent;
 		// Swap the indices of the nodes in order arraylist.
@@ -163,6 +203,10 @@ public class Tree {
 		updateNodeIndices();
 	}
 	
+	/**
+	 * Correct the index value of a node after
+	 * inserting new nodes into the order list.
+	 */
 	private void updateNodeIndices() {
 		for(int i = 0; i < order.size(); i++) {
 			Node node = order.get(i);
@@ -170,6 +214,11 @@ public class Tree {
 		}
 	}
 	
+	/**
+	 * Pre-order depth first print of tree nodes.
+	 * 
+	 * @param node 
+	 */
 	private void printTreeDepth(Node node){
 		if(node.isNYT) {
 			System.out.println(node);
@@ -184,6 +233,14 @@ public class Tree {
 		}
 	}
 	
+	/**
+	 * Breadth first printing of tree.
+	 * 
+	 * Goes to right child of node first before left,
+	 * so that nodes are printed in decreasing indices.
+	 * 
+	 * @param root
+	 */
 	private void printTreeBreadth(Node root) {
 		Queue<Node> queue = new LinkedList<Node>() ;
 	    if (root == null)
