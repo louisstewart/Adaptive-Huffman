@@ -41,6 +41,15 @@ public class Tree {
 		}
 	}
 	
+	public boolean contains(Character value) {
+		if(seen.containsKey(value)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
 	/**
 	 * Print the nodes of the tree using either pre-order
 	 * or reverse breadth first (right child first) traversal 
