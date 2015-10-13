@@ -9,16 +9,16 @@ import adaptiveHuffman.tree.*;
 
 public class Encoder {
 	
-	private FileInputStream in = null;
-	private FileOutputStream out = null;
+	public FileInputStream in = null;
+	public FileOutputStream out = null;
 
     private int bitBuffer;     // 8-bit buffer of bits to write out
     private int n;          // number of bits remaining in buffer
     
     public static void main(String[] args) {
-		Encoder enc = new Encoder(args[0],"intermediate.txt");
+		Encoder enc = new Encoder("/Users/Louis/Desktop/in.txt","new2.txt");
 		Tree tree = new Tree();
-		enc.encode(args[0], tree);
+		enc.encode(tree);
 	}
     
     public Encoder(String in, String out) {
@@ -78,11 +78,9 @@ public class Encoder {
         bitBuffer = 0;
     }
 	
-	public void encode(String filename, Tree tree) {
+	public void encode(Tree tree) {
 		
 		try {
-			
-			//out = new FileOutputStream("output");
 			
 			int c = 0;
 			

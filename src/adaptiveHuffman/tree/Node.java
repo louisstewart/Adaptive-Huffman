@@ -2,9 +2,9 @@ package adaptiveHuffman.tree;
 
 public class Node {
 	
-	protected Node parent = null;
-	protected Node left = null;
-	protected Node right = null;
+	public Node parent = null;
+	public Node left = null;
+	public Node right = null;
 	protected boolean isNYT = false;
 	protected boolean isLeaf = false;
 	
@@ -57,6 +57,14 @@ public class Node {
 		this.isNYT = false;
 	}
 	
+	public boolean isLeaf() {
+		return this.isLeaf;
+	}
+	
+	public boolean isNYT() {
+		return this.isNYT;
+	}
+	
 	/**
 	 * Return some sensible string representation of node
 	 * - always returns index and weight and message about what 
@@ -96,6 +104,10 @@ public class Node {
 	
 	public void setIndex(int index) {
 		this.index = index;
+	}
+	
+	public int getValue() {
+		return this.value;
 	}
 
 }

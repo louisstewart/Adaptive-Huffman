@@ -9,8 +9,8 @@ import java.util.Queue;
 
 public class Tree {
 	
-	private Node root;
-	private Node NYT; // Current NYT node.
+	public Node root;
+	public Node NYT; // Current NYT node.
 	private Map<Integer, Node> seen = new HashMap<Integer,Node>();
 	// Easily access a node based on its value.
 	private List<Node> order = new ArrayList<Node>();
