@@ -4,8 +4,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-
 import adaptiveHuffman.BitInputStream;
 import adaptiveHuffman.tree.*;
 
@@ -13,15 +11,17 @@ public class Decoder {
 	
 	private BitInputStream in = null;
 	private FileOutputStream out = null;
-
-    //private int bitBuffer;     // 8-bit buffer of bits to write out
-    //private int n;          // number of bits remaining in buffer
-    
+	
     public static void main(String[] args) {
-		Decoder dec = new Decoder("hotb_intermediate.txt","hotb_output.txt");
-		Tree tree = new Tree();
-		dec.decode("intermediate.txt", tree);
-	}
+    	if(args.length < 2) {
+    		System.err.println("Usage: adaptiveHuffman.decoder inputFile outputFile");
+    	}
+    	else {
+    		Decoder dec = new Decoder(args[0],args[1]);
+    		Tree tree = new Tree();
+    		dec.decode(tree);
+    	}
+    }
     
     public Decoder(String in, String out) {
     	try {
@@ -32,56 +32,9 @@ public class Decoder {
 		}
     	
     }
-
-    /*private void fillBuffer() {
-        try {
-            bitBuffer = in.read();
-            n = 8;
-        }
-        catch (IOException e) {
-            System.out.println("EOF");
-            bitBuffer = -1;
-            n = -1;
-        }
-    }
-
-   /**
-     * Close this input stream and release any associated system resources.
-     *
-    public void close() {
-        try {
-            in.close();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Could not close BinaryStdIn");
-        }
-    }
-
-   /**
-     * Returns true if standard input is empty.
-     * @return true if and only if standard input is empty
-     *
-    public boolean isEmpty() {
-        return bitBuffer == -1;
-    }
-
-   /**
-     * Reads the next bit of data from standard input and return as a boolean.
-     *
-     * @return the next bit of data from standard input as a <tt>boolean</tt>
-     * @throws RuntimeException if standard input is empty
-     *
-    public boolean readBoolean() {
-        if (isEmpty()) throw new RuntimeException("Reading from empty input stream");
-        n--;
-        boolean bit = ((bitBuffer >> n) & 1) == 1;
-        if (n == 0) fillBuffer();
-        return bit;
-    }*/
-
-	
-	public void decode(String filename, Tree tree) {
+    
+    
+	public void decode(Tree tree) {
 		try {
 			
 			int c = 0;

@@ -1,12 +1,19 @@
 package adaptiveHuffman;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 
 
 /**
- * A stream of bits that can be read. Because they come from an underlying byte stream, the total number of bits is always a multiple of 8. The bits are read in big endian.
+ * This class was taken from 
+ * https://github.com/nayuki/Arithmetic-Coding/blob/master/src/nayuki/arithcode/BitInputStream.java
+ * by user Nayuki.
+ * 
+ * Changes were made to remove unnecessary methods.
+ * Reason for use was to avoid implementing my own single bit reading input stream.
+ * While this would have been possible, this code was publicly available and correct
+ * reference to the original author is being given here and in the report.
+ * 
  */
 public final class BitInputStream {
 	
@@ -49,17 +56,6 @@ public final class BitInputStream {
 		numBitsRemaining--;
 		return (nextBits >>> numBitsRemaining) & 1;
 	}
-	
-	
-	// Reads a bit from the stream. Returns 0 or 1 if a bit is available, or throws an EOFException if the end of stream is reached.
-	public int readNoEof() throws IOException {
-		int result = read();
-		if (result != -1)
-			return result;
-		else
-			throw new EOFException("End of stream reached");
-	}
-	
 	
 	// Closes this stream and the underlying InputStream.
 	public void close() throws IOException {
