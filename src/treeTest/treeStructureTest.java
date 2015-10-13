@@ -62,17 +62,17 @@ public class treeStructureTest {
 	*/
 	@Test
 	public void testInsertAbracadabra() {
-		tree.insertInto('a');
-		tree.insertInto('b');
-		tree.insertInto('r');
-		tree.insertInto('a');
-		tree.insertInto('c');
-		tree.insertInto('a');
-		tree.insertInto('d');
-		tree.insertInto('a');
-		tree.insertInto('b');
-		tree.insertInto('r');
-		tree.insertInto('a');
+		tree.insertInto(1);
+		tree.insertInto(2);
+		tree.insertInto(3);
+		tree.insertInto(4);
+		tree.insertInto(5);
+		tree.insertInto(2);
+		tree.insertInto(3);
+		tree.insertInto(1);
+		tree.insertInto(4);
+		tree.insertInto(1);
+		tree.insertInto(5);
 		tree.printTree(true);
 	}
 	

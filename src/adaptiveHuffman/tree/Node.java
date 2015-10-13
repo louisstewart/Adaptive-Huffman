@@ -10,7 +10,7 @@ public class Node {
 	
 	private int weight;
 	private int index;
-	private char value;
+	private int value;
 	
 	/**
 	 * Internal node constructor
@@ -48,7 +48,7 @@ public class Node {
 	 * @param parent
 	 * @param value
 	 */
-	public Node(Node parent, char value) {
+	public Node(Node parent, int value) {
 		this.parent = parent;
 		this.weight = 1;
 		this.index = 1;

@@ -11,7 +11,7 @@ public class Tree {
 	
 	private Node root;
 	private Node NYT; // Current NYT node.
-	private Map<Character, Node> seen = new HashMap<Character,Node>();
+	private Map<Integer, Node> seen = new HashMap<Integer,Node>();
 	// Easily access a node based on its value.
 	private List<Node> order = new ArrayList<Node>();
 	// Keep nodes in order based on weight.
@@ -29,7 +29,7 @@ public class Tree {
 	 * 
 	 * @param value - value to insert into tree
 	 */
-	public void insertInto(Character value) {
+	public void insertInto(Integer value) {
 		// Deal with value that exists in tree first.
 		if(seen.containsKey(value)) {
 			Node toUpdate = seen.get(value);
@@ -47,13 +47,59 @@ public class Tree {
 	 * @param value - char to check.
 	 * @return true if exists in tree.
 	 */
-	public boolean contains(Character value) {
+	public boolean contains(Integer value) {
 		if(seen.containsKey(value)) {
 			return true;
 		}
 		else {
 			return false;
 		}
+	}
+	
+	public int getCode(Integer c, boolean seen, ArrayList<Boolean> buffer) {
+		int length = 0; 
+		if(!seen) { // Return NYT code
+			if(NYT == root) {
+				return length; // Nothing in tree;
+			}
+			else {
+				Node node = NYT;
+				Node parent;
+				while(node.parent != null) {
+					parent = node.parent;
+					if(parent.left == node) {
+						buffer.add(false);
+						length++;
+					}
+					else {
+						buffer.add(true);
+						length++;
+					}
+					node = parent;
+				}
+			}
+		}
+		else {
+			Node node = this.seen.get(c);
+			Node parent;
+			while(node.parent != null) {
+				parent = node.parent;
+				if(parent.left == node) {
+					buffer.add(false);
+					length++;
+				}
+				else {
+					buffer.add(true);
+					length++;
+				}
+				node = parent;
+			}
+		}
+		return length;
+	}
+	
+	public boolean isEmpty() {
+		return root == NYT;
 	}
 	
 	/**
@@ -77,7 +123,7 @@ public class Tree {
 	 * The internal node has an NYT node as left child, and a new leaf as right child.
 	 * Weight of new internal node is weight of leaf child + NYT (which is 0).
 	 */
-	private Node giveBirth(char value) {
+	private Node giveBirth(int value) {
 		Node newNYT = new Node(NYT);
 		Node leaf = new Node(NYT, value);
 		seen.put(value, leaf); // Add new value to seen.
