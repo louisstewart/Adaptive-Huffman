@@ -92,7 +92,7 @@ public class BitByteOutputStream {
         	return;
         }
         if (bitsLeftInBuffer > 0) {
-        	// Fill buffer with 0s.
+        	// Fill empty space in buffer with 0s.
         	bitBuffer <<= (8 - bitsLeftInBuffer); 
         }
         try {

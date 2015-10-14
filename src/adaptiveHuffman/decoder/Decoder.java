@@ -76,8 +76,6 @@ public class Decoder {
 					node = tree.root;
 				}	
 			}
-			//tree.printTree(true);
-			
 		}
 		catch (IOException e) {
 			System.err.println("Error reading bytes");
