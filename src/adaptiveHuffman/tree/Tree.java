@@ -11,11 +11,16 @@ public class Tree {
 	
 	public Node root;
 	public Node NYT; // Current NYT node.
-	private Map<Integer, Node> seen = new HashMap<Integer,Node>();
-	// Easily access a node based on its value.
-	private List<Node> order = new ArrayList<Node>();
-	// Keep nodes in order based on weight.
 	
+	// Easily access a node based on its value.
+	private Map<Integer, Node> seen = new HashMap<Integer,Node>();
+	// Keep nodes in order based on weight.
+	private List<Node> order = new ArrayList<Node>();
+	
+	/**
+	 * Make a new tree with root == NYT node.
+	 * Add NYT node to order list at index 0.
+	 */
 	public Tree() {
 		this.root = new Node(null);
 		this.NYT = root;
@@ -56,6 +61,18 @@ public class Tree {
 		}
 	}
 	
+	/**
+	 * Given a value, find its code by traversing the tree. 
+	 * Moving left = 0 bit, moving right = 1 bit
+	 * 
+	 * Bits are stored as booleans in a list in reverse order 
+	 * because tree is traversed from leaf to root.
+	 * 
+	 * @param c - value to find in tree.
+	 * @param seen - flag to say if c exists in tree or not
+	 * @param buffer - list of bools representing bits
+	 * @return - number of bits in the code.
+	 */
 	public int getCode(Integer c, boolean seen, ArrayList<Boolean> buffer) {
 		int length = 0; 
 		if(!seen) { // Return NYT code
@@ -63,37 +80,11 @@ public class Tree {
 				return length; // Nothing in tree;
 			}
 			else {
-				Node node = NYT;
-				Node parent;
-				while(node.parent != null) {
-					parent = node.parent;
-					if(parent.left == node) {
-						buffer.add(false);
-						length++;
-					}
-					else {
-						buffer.add(true);
-						length++;
-					}
-					node = parent;
-				}
+				length = generateCode(NYT,buffer);
 			}
 		}
 		else {
-			Node node = this.seen.get(c);
-			Node parent;
-			while(node.parent != null) {
-				parent = node.parent;
-				if(parent.left == node) {
-					buffer.add(false);
-					length++;
-				}
-				else {
-					buffer.add(true);
-					length++;
-				}
-				node = parent;
-			}
+			length = generateCode(this.seen.get(c),buffer);
 		}
 		return length;
 	}
@@ -258,6 +249,36 @@ public class Tree {
 			Node node = order.get(i);
 			node.setIndex(order.indexOf(node));
 		}
+	}
+	
+	/** 
+	 * Generate in reverse order a list of booleans that represent 
+	 * the bits for the code of a value in the tree.
+	 * 
+	 * List generated in reverse order because we traverse the tree
+	 * from node up to root.
+	 * 
+	 * @param in - Node to start from (leaf or nyt)
+	 * @param buffer - list of bools representing bits
+	 * @return number of bits in code == length of list.
+	 */
+	private int generateCode(Node in, ArrayList<Boolean> buffer) {
+		Node node = in;
+		Node parent;
+		int length = 0;
+		while(node.parent != null) {
+			parent = node.parent;
+			if(parent.left == node) {
+				buffer.add(false);
+				length++;
+			}
+			else {
+				buffer.add(true);
+				length++;
+			}
+			node = parent;
+		}
+		return length;
 	}
 	
 	/**

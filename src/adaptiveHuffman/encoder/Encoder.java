@@ -1,9 +1,11 @@
 package adaptiveHuffman.encoder;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Time;
 import java.util.ArrayList;
 
 import adaptiveHuffman.BitByteOutputStream;
@@ -21,7 +23,15 @@ public class Encoder {
     	else {
     		Encoder enc = new Encoder(args[0],args[1]);
     		Tree tree = new Tree();
+    		File in = new File(args[0]);
+    		long t = System.nanoTime();
     		enc.encode(tree);
+    		long at = System.nanoTime();
+    		File out = new File(args[1]);
+    		System.out.println("Finished compression of: "+in.getName()+" in "+(float)(at-t)/1000000+" ms");
+    		System.out.println("Original size: "+in.length()+" bytes");
+    		System.out.println("Compressed size: "+out.length()+" bytes");
+    		System.out.println("Compression ratio: "+((float)in.length()/(float)out.length()));
     	}
 	}
     

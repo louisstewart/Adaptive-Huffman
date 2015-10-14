@@ -5,6 +5,7 @@ public class Node {
 	public Node parent = null;
 	public Node left = null;
 	public Node right = null;
+	
 	protected boolean isNYT = false;
 	protected boolean isLeaf = false;
 	

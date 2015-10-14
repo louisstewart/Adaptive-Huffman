@@ -1,9 +1,11 @@
 package adaptiveHuffman.decoder;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
 import adaptiveHuffman.BitInputStream;
 import adaptiveHuffman.tree.*;
 
@@ -19,7 +21,13 @@ public class Decoder {
     	else {
     		Decoder dec = new Decoder(args[0],args[1]);
     		Tree tree = new Tree();
+    		File in = new File(args[0]);
     		dec.decode(tree);
+    		File out = new File(args[1]);
+    		System.out.println("Finished decompression of: "+in.getName());
+    		System.out.println("Original size: "+in.length()+" bytes");
+    		System.out.println("Uncompressed size: "+out.length()+" bytes");
+    		System.out.println("Compression ratio: "+((float)out.length()/(float)in.length()));
     	}
     }
     
