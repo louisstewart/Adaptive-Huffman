@@ -9,7 +9,7 @@ Compile using javac
 
 Where `InputFile` is some text or otherwise file to compress, and `OutputFile` is the location to write the compressed code to.
 
-## How To Run Decoder:
+## How To Run Decoder
 
 	$ java adaptiveHuffman.decoder.Decoder InputFile OutputFile
 
